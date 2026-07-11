@@ -60,12 +60,18 @@
                                         loading="lazy"
                                     />
 
-                                    @if (($latestUpload?->status ?? null) === 'processing')
+                                    @if (in_array((string) ($latestUpload?->status ?? ''), ['pending', 'processing'], true))
                                         <div class="pointer-events-none absolute inset-0 overflow-hidden">
-                                            <div class="absolute left-0 right-0 h-20 bg-gradient-to-b from-transparent via-emerald-300/35 to-transparent animate-[timetable-scan_2.2s_linear_infinite]"></div>
+                                            @if (($latestUpload?->status ?? null) === 'processing')
+                                                <div class="absolute left-0 right-0 h-20 bg-gradient-to-b from-transparent via-emerald-300/35 to-transparent animate-[timetable-scan_2.2s_linear_infinite]"></div>
+                                            @else
+                                                <div class="absolute inset-0 bg-black/10 animate-pulse"></div>
+                                            @endif
                                         </div>
                                         <div class="pointer-events-none absolute inset-x-0 top-2 text-center">
-                                            <span class="rounded-full bg-emerald-500/85 px-2 py-1 text-xs font-semibold text-white">{{ __('Scanning timetable...') }}</span>
+                                            <span class="rounded-full bg-emerald-500/85 px-2 py-1 text-xs font-semibold text-white">
+                                                {{ ($latestUpload?->status ?? null) === 'processing' ? __('Scanning timetable...') : __('Queued for processing...') }}
+                                            </span>
                                         </div>
                                     @endif
                                 </div>
