@@ -231,6 +231,7 @@ PROMPT;
                         ->post("{$baseUrl}/models/{$model}:generateContent?key={$apiKey}", [
                             'contents' => [
                                 [
+                                    'role' => 'user',
                                     'parts' => $parts,
                                 ],
                             ],
